@@ -5,28 +5,36 @@ const server = http
     const now = new Date();
     console.info('[' + now + '] Requested by ' + req.socket.remoteAddress);
     res.writeHead(200, {
-      'Content-Type': 'text/plain; charset=utf-8'
+      'Content-Type': 'text/html; charset=utf-8'
     });
 
     switch (req.method) {
       case 'GET':
-        res.write('GET ' + req.url);
+        const fs = require('fs');
+        const rs = fs.createReadStream('./form.html');
+        rs.pipe(res);
         break;
       case 'POST':
-        res.write('POST ' + req.url);
         let rawData = '';
         req
           .on('data', chunk => {
             rawData = rawData + chunk;
           })
           .on('end', () => {
-            console.info('[' + now + '] Data posted: ' + rawData);
+            const decoded = decodeURIComponent(rawData);
+            const qs = require('querystring');
+            const answer = qs.parse(rawData);
+            const body = answer['name']+ 'さんは' + answer['yaki-shabu'] + 'に投票しました';
+            console.info('['+ now + ']' + body);
+            res.write(
+              '<!DOCTYPE html><html lang="ja"><body><h1>' +
+               decoded + 'が投稿されました</h1></body></html>');
+              res.end();
           });
         break;
       default:
         break;
     }
-    res.end();
   })
   .on('error', e => {
     console.error('[' + new Date() + '] Server Error', e);
