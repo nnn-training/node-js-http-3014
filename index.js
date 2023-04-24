@@ -1,5 +1,5 @@
 'use strict';
-const http = require('http');
+const http = require('node:http');
 const server = http
   .createServer((req, res) => {
     const now = new Date();
