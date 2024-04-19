@@ -6,6 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
-  "license": "ISC"
+  "author": "PatrickHarumi <patrickharumi@gmail.com>",
+  "license": "ISC",
+  "repository": "git@github.com:PatrickHarumi/node-js-http-3014.git"
 }
